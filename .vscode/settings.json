@@ -1,0 +1,22 @@
+{
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "C:/Program Files/Java/javafx-sdk-22.0.2/lib/*.jar",
+        "C:/Program Files/Java/jdk-23/lib/*.jar"
+    ],
+    "java.jdt.ls.java.home": "C:\\Program Files\\Java\\jdk-23",
+    "java.completion.favoriteStaticMembers": [
+        "org.junit.Assert.*",
+        "org.junit.Assume.*",
+        "org.junit.jupiter.api.Assertions.*",
+        "org.junit.jupiter.api.Assumptions.*",
+        "org.junit.jupiter.api.DynamicContainer.*",
+        "org.junit.jupiter.api.DynamicTest.*",
+        "org.mockito.Mockito.*",
+        "org.mockito.ArgumentMatchers.*",
+        "org.mockito.Answers.*"
+    ]
+}

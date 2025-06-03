@@ -1,0 +1,135 @@
+/* Fallout 1 inspired JavaFX CSS - Ajustado para encuadre correcto */
+
+.root {
+    -fx-background-color: #191910;
+    -fx-font-family: 'Consolas', 'Courier New', monospace;
+    -fx-font-size: 16px; /* Más pequeño para encuadrar */
+    -fx-text-fill: #c2c27a;
+}
+
+.label {
+    -fx-text-fill: #baff39;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px; /* Más pequeño para encuadrar */
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, #1a2a0a, 2, 0.5, 0, 1);
+}
+
+.button {
+    -fx-background-color: linear-gradient(#23230e, #191910);
+    -fx-text-fill: #f7e26b;
+    -fx-border-color: #baff39;
+    -fx-border-width: 2px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px; /* Más pequeño para encuadrar */
+    -fx-padding: 2 10 2 10; /* Padding reducido para que no se desborde */
+    -fx-effect: dropshadow(gaussian, #1a2a0a, 2, 0.5, 0, 1);
+}
+
+.button:hover {
+    -fx-background-color: #39391a;
+    -fx-text-fill: #baff39;
+}
+
+.table-view {
+    -fx-background-color: #191910;
+    -fx-table-cell-border-color: #baff39;
+    -fx-control-inner-background: #191910;
+    -fx-text-background-color: #baff39;
+    -fx-font-size: 15px;
+}
+
+.table-row-cell {
+    -fx-background-color: #191910;
+    -fx-text-fill: #baff39;
+    -fx-alignment: center;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #39391a;
+    -fx-text-fill: #f7e26b;
+}
+
+.anchor-pane {
+    -fx-background-color: transparent;
+}
+
+.accordion, .titled-pane {
+    -fx-background-color: #191910;
+    -fx-text-fill: #baff39;
+    -fx-border-color: #baff39;
+    -fx-border-width: 2px;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #39391a;
+    -fx-text-fill: #f7e26b;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+
+.titled-pane > .content {
+    -fx-background-color: #191910;
+}
+
+.scene {
+    -fx-background-color: #191910;
+}
+
+
+.map-cell {
+    -fx-background-color: #23230e;
+    -fx-border-color: #baff39;
+    -fx-border-width: 1.5px;
+    -fx-alignment: center;
+    -fx-font-size: 18px;
+    -fx-font-family: 'Consolas', 'Courier New', monospace;
+    -fx-text-fill: #baff39;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, #1a2a0a, 1, 0.5, 0, 1);
+    -fx-padding: 0;
+    -fx-min-width: 30px;
+    -fx-min-height: 30px;
+}
+
+.map-cell:hover {
+    -fx-background-color: #39391a;
+    -fx-text-fill: #f7e26b;
+}
+
+/* ...existing code... */
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical, .scroll-bar:horizontal {
+    -fx-background-color: #23230e;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: #baff39;
+    -fx-background-insets: 2;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-background-color: #f7e26b;
+}
+
+.scroll-bar .increment-button, .scroll-bar .decrement-button {
+    -fx-background-color: #39391a;
+    -fx-background-radius: 5px;
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+    -fx-background-color: #baff39;
+}
+
+/* Opcional: oculta las barras cuando no se necesitan */
+.scroll-pane > .corner {
+    -fx-background-color: transparent;
+}
