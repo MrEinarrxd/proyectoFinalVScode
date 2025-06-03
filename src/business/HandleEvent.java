@@ -98,6 +98,7 @@ public class HandleEvent {
         for (Player player : players) {
             int[] pos = player.getCoordenates();
             boolean found = false;
+            
             for (int i = 0; i < posiciones.size(); i++) {
                 int[] posExistente = posiciones.get(i);
                 if (pos[0] == posExistente[0] && pos[1] == posExistente[1]) {
