@@ -82,6 +82,4 @@ public class GameController {
 	public ArrayList<Event> getEvents() {
 		return eventHistory;
 	}
-
-
 }

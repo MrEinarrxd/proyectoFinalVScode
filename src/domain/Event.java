@@ -50,5 +50,4 @@ public class Event {
         return collition + "-" + eventEfect + "-" + eventResult;
     }
 
-
 }

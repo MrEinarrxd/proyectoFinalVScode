@@ -110,47 +110,44 @@ public class GUI {
     }
 
 	public void setPaneTable() {
-			paneTable = new AnchorPane();
-			paneTable.setLayoutX(500.0);
-			paneTable.setPrefSize(250, 400);
+		paneTable = new AnchorPane();
+		paneTable.setLayoutX(500.0);
+		paneTable.setPrefSize(250, 400);
+
+		tEvent = new TableView<>();
+		tEvent.setPrefSize(250, 400);
+		tEvent.setLayoutX(0);
+		tEvent.setLayoutY(10);
+
+		TableColumn<Event, String> caseColumn = new TableColumn<>("Encuentro");
+		caseColumn.setCellValueFactory(new PropertyValueFactory<>("collition"));
+		caseColumn.setPrefWidth(180);
+
+		TableColumn<Event, String> efectColumn = new TableColumn<>("Efecto");
+		efectColumn.setCellValueFactory(new PropertyValueFactory<>("eventEfect"));
+		efectColumn.setPrefWidth(110);
+
+		TableColumn<Event, String> descColumn = new TableColumn<>("Resultado"); // Cambiado de "Descripción" a "Resultado"
+		descColumn.setCellValueFactory(new PropertyValueFactory<>("eventResult"));
+		descColumn.setPrefWidth(110);
+
+		tEvent.getColumns().setAll(caseColumn, efectColumn, descColumn);
+
+		tEvent.setItems(oEvent);
+
+		scrollPaneTable  = new ScrollPane(tEvent);
+		scrollPaneTable.setFitToWidth(true);
+		scrollPaneTable.setFitToHeight(true);
 	
-			tEvent = new TableView<>();
-			tEvent.setPrefSize(250, 400);
-			tEvent.setLayoutX(0);
-			tEvent.setLayoutY(10);
-	
-			TableColumn<Event, String> caseColumn = new TableColumn<>("Encuentro");
-			caseColumn.setCellValueFactory(new PropertyValueFactory<>("collition"));
-			caseColumn.setPrefWidth(180);
-	
-			TableColumn<Event, String> efectColumn = new TableColumn<>("Efecto");
-			efectColumn.setCellValueFactory(new PropertyValueFactory<>("eventEfect"));
-			efectColumn.setPrefWidth(110);
-	
-			TableColumn<Event, String> descColumn = new TableColumn<>("Resultado"); // Cambiado de "Descripción" a "Resultado"
-			descColumn.setCellValueFactory(new PropertyValueFactory<>("eventResult"));
-			descColumn.setPrefWidth(110);
-	
-			tEvent.getColumns().setAll(caseColumn, efectColumn, descColumn);
+		AnchorPane.setTopAnchor(scrollPaneTable, 0.0);
+		AnchorPane.setLeftAnchor(scrollPaneTable, 0.0);
+		AnchorPane.setRightAnchor(scrollPaneTable, 0.0);
+		AnchorPane.setBottomAnchor(scrollPaneTable, 0.0);
+		paneTable.getChildren().add(scrollPaneTable);
 
 
-			tEvent.setItems(oEvent);
-	
-			scrollPaneTable  = new ScrollPane(tEvent);
-			scrollPaneTable.setFitToWidth(true);
-			scrollPaneTable.setFitToHeight(true);
-		
-
-		
-			AnchorPane.setTopAnchor(scrollPaneTable, 0.0);
-			AnchorPane.setLeftAnchor(scrollPaneTable, 0.0);
-			AnchorPane.setRightAnchor(scrollPaneTable, 0.0);
-			AnchorPane.setBottomAnchor(scrollPaneTable, 0.0);
-			paneTable.getChildren().add(scrollPaneTable);
-
-	
-			root.getChildren().add(paneTable);
-		}
+		root.getChildren().add(paneTable);
+	}
 
 	public void updateTable(ArrayList<Event> events) {
 		oEvent.setAll(events);
@@ -186,7 +183,7 @@ public class GUI {
 		bVer = createButton("Ver", 30, 560,prefSize);
 		bkillInfected = createButton("Matar Infeccion", 85, 560,prefSize);
 		bKillPlayer = createButton("Matar Humanos", 145, 560,prefSize);
-		
+
 		paneButtons.getChildren().addAll(bVer, bkillInfected, bKillPlayer);
 	}
 
