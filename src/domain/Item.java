@@ -1,10 +1,12 @@
 package domain;
 
 public class Item {
+	private int id;
 	private int[] coordenates = new int[2];
 	private String type = " ";
-	
-	public Item(int[] coordenates, String type) {
+
+	public Item(int id, int[] coordenates, String type) {
+		this.id = id;
 		this.coordenates = coordenates;
 		this.type = type;
 	}
@@ -20,11 +22,12 @@ public class Item {
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	public String toString() {
-		return "Item [coordenates=" + coordenates[0] + "," + coordenates[1] + ", type=" + type + "]";
+	public int getId() {
+		return id;
 	}
-
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int[] getCoordinates() {
 		return coordenates;
 	}

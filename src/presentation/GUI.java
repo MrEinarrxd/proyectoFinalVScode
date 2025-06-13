@@ -1,6 +1,5 @@
 package presentation;
 
-
 import java.util.ArrayList;
 
 import domain.Event;
@@ -13,6 +12,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class GUI {
+    // Atributos
     private Scene myScene;
     private AnchorPane root;
 
@@ -24,21 +24,22 @@ public class GUI {
     private Button bEuropa;
     private Button bAsia;
 
-	private Button bVer;
-	private Button bkillInfected;
-	private Button bKillPlayer;
+    private Button bVer;
+    private Button bkillInfected;
+    private Button bKillPlayer;
 
     private Label lInfeccion;
     private Label lVer;
 
-	private GridPane gpMatrix;
-	private Label[][] lMatrix;
-	private ScrollPane scrollPaneBoard;
-	private ScrollPane scrollPaneTable;
-	private TableView<Event> tEvent;
- 	private ObservableList<Event> oEvent = FXCollections.observableArrayList();
+    private GridPane gpMatrix;
+    private Label[][] lMatrix;
+    private ScrollPane scrollPaneBoard;
+    private ScrollPane scrollPaneTable;
+    private TableView<Event> tEvent;
+    private ObservableList<Event> oEvent = FXCollections.observableArrayList();
 
-        public GUI() {
+    // Constructor
+    public GUI() {
         root = new AnchorPane();
         root.setPrefSize(750, 600);
 
@@ -49,51 +50,28 @@ public class GUI {
         myScene = new Scene(root, 750, 600);
     }
 
-	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Infección");
-		primaryStage.setScene(getMyScene());
-		primaryStage.setMinWidth(750);
-		primaryStage.setMinHeight(600);
-		primaryStage.setResizable(false);
-		primaryStage.show();
-	}
-	
+    // Métodos públicos
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Infección");
+        primaryStage.setScene(getMyScene());
+        primaryStage.setMinWidth(750);
+        primaryStage.setMinHeight(600);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+    }
 
+    public void setGameMap(String[][] data) {
+        paneScreen.getChildren().clear();
+        setLMatrix(data);
+        Label[][] lMatrix = getlMatrix();
+        setGPMatrix(lMatrix);
+    }
 
-	public void setLMatrix(String[][] data) {
-		lMatrix = new Label[data.length][data[0].length];
-		double cellWidth = 500.0 / data[0].length;
-		double cellHeight = 400.0 / data.length;
+    public void updateTable(ArrayList<Event> events) {
+        oEvent.setAll(events);
+    }
 
-		for (int i = 0; i < lMatrix.length; i++) {
-			for (int j = 0; j < lMatrix[0].length; j++) {
-				lMatrix[i][j] = new Label(data[i][j]);
-				lMatrix[i][j].setPrefSize(cellWidth, cellHeight);
-				lMatrix[i][j].setStyle("-fx-border-color: black; -fx-alignment: center; -fx-font-size: 14px;");
-				lMatrix[i][j].getStyleClass().add("map-cell");
-			}
-		}
-	}
-	
-	public void setGPMatrix(Label[][] lMatrix) {
-		gpMatrix = new GridPane();
-		for (int i = 0; i < lMatrix.length; i++) {
-			for (int j = 0; j < lMatrix[0].length; j++) {
-				gpMatrix.add(lMatrix[i][j], j, i);
-			}
-		}
-		scrollPaneBoard = new ScrollPane(gpMatrix);
-		scrollPaneBoard.setPrefViewportWidth(500);
-		scrollPaneBoard.setPrefViewportHeight(400);
-	
-		AnchorPane.setTopAnchor(scrollPaneBoard, 0.0);
-		AnchorPane.setLeftAnchor(scrollPaneBoard, 0.0);
-		AnchorPane.setRightAnchor(scrollPaneBoard, 0.0);
-		AnchorPane.setBottomAnchor(scrollPaneBoard, 0.0);
-	
-		paneScreen.getChildren().add(scrollPaneBoard);
-	}
-
+    // Métodos de configuración de paneles y botones
     public void setPaneScreen() {
         paneScreen = new AnchorPane();
         paneScreen.setPrefSize(500, 400);
@@ -106,126 +84,143 @@ public class GUI {
         lVer.setLayoutX(180);
         lVer.setLayoutY(300);
         paneScreen.getChildren().addAll(lInfeccion, lVer);
-		root.getChildren().add(paneScreen);
+        root.getChildren().add(paneScreen);
     }
 
-	public void setPaneTable() {
-		paneTable = new AnchorPane();
-		paneTable.setLayoutX(500.0);
-		paneTable.setPrefSize(250, 400);
+    public void setPaneTable() {
+        paneTable = new AnchorPane();
+        paneTable.setLayoutX(500.0);
+        paneTable.setPrefSize(250, 400);
 
-		tEvent = new TableView<>();
-		tEvent.setPrefSize(250, 400);
-		tEvent.setLayoutX(0);
-		tEvent.setLayoutY(10);
+        tEvent = new TableView<>();
+        tEvent.setPrefSize(250, 400);
+        tEvent.setLayoutX(0);
+        tEvent.setLayoutY(10);
 
-		TableColumn<Event, String> caseColumn = new TableColumn<>("Encuentro");
-		caseColumn.setCellValueFactory(new PropertyValueFactory<>("collition"));
-		caseColumn.setPrefWidth(180);
+        TableColumn<Event, String> caseColumn = new TableColumn<>("Encuentro");
+        caseColumn.setCellValueFactory(new PropertyValueFactory<>("collition"));
+        caseColumn.setPrefWidth(180);
 
-		TableColumn<Event, String> efectColumn = new TableColumn<>("Efecto");
-		efectColumn.setCellValueFactory(new PropertyValueFactory<>("eventEfect"));
-		efectColumn.setPrefWidth(110);
+        TableColumn<Event, String> efectColumn = new TableColumn<>("Efecto");
+        efectColumn.setCellValueFactory(new PropertyValueFactory<>("eventEfect"));
+        efectColumn.setPrefWidth(110);
 
-		TableColumn<Event, String> descColumn = new TableColumn<>("Resultado"); // Cambiado de "Descripción" a "Resultado"
-		descColumn.setCellValueFactory(new PropertyValueFactory<>("eventResult"));
-		descColumn.setPrefWidth(110);
+        TableColumn<Event, String> descColumn = new TableColumn<>("Resultado");
+        descColumn.setCellValueFactory(new PropertyValueFactory<>("eventResult"));
+        descColumn.setPrefWidth(110);
 
-		tEvent.getColumns().setAll(caseColumn, efectColumn, descColumn);
+        tEvent.getColumns().setAll(caseColumn, efectColumn, descColumn);
 
-		tEvent.setItems(oEvent);
+        tEvent.setItems(oEvent);
 
-		scrollPaneTable  = new ScrollPane(tEvent);
-		scrollPaneTable.setFitToWidth(true);
-		scrollPaneTable.setFitToHeight(true);
-	
-		AnchorPane.setTopAnchor(scrollPaneTable, 0.0);
-		AnchorPane.setLeftAnchor(scrollPaneTable, 0.0);
-		AnchorPane.setRightAnchor(scrollPaneTable, 0.0);
-		AnchorPane.setBottomAnchor(scrollPaneTable, 0.0);
-		paneTable.getChildren().add(scrollPaneTable);
+        scrollPaneTable  = new ScrollPane(tEvent);
+        scrollPaneTable.setFitToWidth(true);
+        scrollPaneTable.setFitToHeight(true);
 
+        AnchorPane.setTopAnchor(scrollPaneTable, 0.0);
+        AnchorPane.setLeftAnchor(scrollPaneTable, 0.0);
+        AnchorPane.setRightAnchor(scrollPaneTable, 0.0);
+        AnchorPane.setBottomAnchor(scrollPaneTable, 0.0);
+        paneTable.getChildren().add(scrollPaneTable);
 
-		root.getChildren().add(paneTable);
-	}
+        root.getChildren().add(paneTable);
+    }
 
-	public void updateTable(ArrayList<Event> events) {
-		oEvent.setAll(events);
-	}
-	
-	public void setPaneButtonsMenu() {
-		paneButtons = new AnchorPane();
-		paneButtons.setLayoutY(400.0);
-		paneButtons.setPrefSize(750, 200);
-	
-		int[] prefSize = new int[]{90, 40};
+    public void setPaneButtonsMenu() {
+        paneButtons = new AnchorPane();
+        paneButtons.setLayoutY(400.0);
+        paneButtons.setPrefSize(750, 200);
 
-        bAmerica = createButton("America", 30, 200, prefSize);
-        bEuropa = createButton("Europa", 85, 200, prefSize);
+        int[] prefSize = new int[]{90, 40};
+
+        bAmerica = createButton("Africa", 30, 200, prefSize);
+        bEuropa = createButton("America", 85, 200, prefSize);
         bAsia = createButton("Asia", 145, 200, prefSize);
-	
-		paneButtons.getChildren().addAll(bAmerica, bEuropa, bAsia);
-		root.getChildren().add(paneButtons);
-	}
 
-	public void setGameMap(String[][] data) {
-		paneScreen.getChildren().clear();
-		setLMatrix(data);
-		Label[][] lMatrix = getlMatrix();
+        paneButtons.getChildren().addAll(bAmerica, bEuropa, bAsia);
+        root.getChildren().add(paneButtons);
+    }
 
-		setGPMatrix(lMatrix);
-	}
+    public void setPaneButtonsGame() {
+        paneButtons.getChildren().clear();
+        int[] prefSize = new int[]{160, 40};
 
-	public void setPaneButtonsGame() {
-		paneButtons.getChildren().clear();
-		int[] prefSize = new int[]{160, 40};
+        bVer = createButton("Ver", 30, 560, prefSize);
+        bkillInfected = createButton("Matar Infeccion", 85, 560, prefSize);
+        bKillPlayer = createButton("Matar Humanos", 145, 560, prefSize);
 
-		bVer = createButton("Ver", 30, 560,prefSize);
-		bkillInfected = createButton("Matar Infeccion", 85, 560,prefSize);
-		bKillPlayer = createButton("Matar Humanos", 145, 560,prefSize);
+        paneButtons.getChildren().addAll(bVer, bkillInfected, bKillPlayer);
+    }
 
-		paneButtons.getChildren().addAll(bVer, bkillInfected, bKillPlayer);
-	}
+    // Métodos de configuración de la matriz visual
+    public void setLMatrix(String[][] data) {
+        lMatrix = new Label[data.length][data[0].length];
+        double cellWidth = 500.0 / data[0].length;
+        double cellHeight = 400.0 / data.length;
 
-	private Button createButton(String text, int layoutY, int layoutX, int[] prefZize) {
-		Button button = new Button(text);
-		button.setLayoutY(layoutY);
-		button.setLayoutX(layoutX);
-		button.setPrefSize(prefZize[0], prefZize[1]);
-		return button;
-	}
+        for (int i = 0; i < lMatrix.length; i++) {
+            for (int j = 0; j < lMatrix[0].length; j++) {
+                lMatrix[i][j] = new Label(data[i][j]);
+                lMatrix[i][j].setPrefSize(cellWidth, cellHeight);
+                lMatrix[i][j].setStyle("-fx-border-color: black; -fx-alignment: center; -fx-font-size: 14px;");
+                lMatrix[i][j].getStyleClass().add("map-cell");
+            }
+        }
+    }
 
-	public Button getbVer() {
-		return bVer;
-	}
-	public Button getbkillInfected() {
-		return bkillInfected;
-	}
-	public Button getbKillPlayer() {
-		return bKillPlayer;
-	}
+    public void setGPMatrix(Label[][] lMatrix) {
+        gpMatrix = new GridPane();
+        for (int i = 0; i < lMatrix.length; i++) {
+            for (int j = 0; j < lMatrix[0].length; j++) {
+                gpMatrix.add(lMatrix[i][j], j, i);
+            }
+        }
+        scrollPaneBoard = new ScrollPane(gpMatrix);
+        scrollPaneBoard.setPrefViewportWidth(500);
+        scrollPaneBoard.setPrefViewportHeight(400);
 
-	public GridPane getGPMatrix() {
-		return gpMatrix;
-	}
+        AnchorPane.setTopAnchor(scrollPaneBoard, 0.0);
+        AnchorPane.setLeftAnchor(scrollPaneBoard, 0.0);
+        AnchorPane.setRightAnchor(scrollPaneBoard, 0.0);
+        AnchorPane.setBottomAnchor(scrollPaneBoard, 0.0);
 
-	public Label[][] getlMatrix() {
-		return lMatrix;
-	}
+        paneScreen.getChildren().add(scrollPaneBoard);
+    }
 
+    // Métodos auxiliares y getters
+    private Button createButton(String text, int layoutY, int layoutX, int[] prefZize) {
+        Button button = new Button(text);
+        button.setLayoutY(layoutY);
+        button.setLayoutX(layoutX);
+        button.setPrefSize(prefZize[0], prefZize[1]);
+        return button;
+    }
+
+    public Button getbVer() {
+        return bVer;
+    }
+    public Button getbkillInfected() {
+        return bkillInfected;
+    }
+    public Button getbKillPlayer() {
+        return bKillPlayer;
+    }
+    public GridPane getGPMatrix() {
+        return gpMatrix;
+    }
+    public Label[][] getlMatrix() {
+        return lMatrix;
+    }
     public Scene getMyScene() {
         return myScene;
     }
-
-	public Button getbAmerica() {
-		return bAmerica;
-	}
-
-	public Button getbEuropa() {
-		return bEuropa;
-	}
-
-	public Button getbAsia() {
-		return bAsia;
-	}
+    public Button getbAmerica() {
+        return bAmerica;
+    }
+    public Button getbEuropa() {
+        return bEuropa;
+    }
+    public Button getbAsia() {
+        return bAsia;
+    }
 }

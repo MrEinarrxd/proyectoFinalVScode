@@ -1,36 +1,41 @@
 package domain;
 
 public class Player {
-	private String id;
-	private char state = 'H';
+	private int id;
 	private int[] coordenates = new int[2];
+	private char state = 'H';
 
-	public Player(String id, int[] coordenates) {
+	public Player(int id, int[] coordenates, char state) {
 		this.id = id;
 		this.coordenates = coordenates;
+		this.state = state;
 	}
-	public String getId() {
+
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+
+	public void setId(int id) {
 		this.id = id;
 	}
+
 	public char getState() {
 		return state;
 	}
+
 	public void setState(char state) {
 		this.state = state;
 	}
-	public int[] getCoordenates() {
+
+	public int[] getCoordinates() {
 		return coordenates;
 	}
 
-
-	public void setCoordenates(int[] coordenates) {
+	public void setCoordinates(int[] coordenates) {
 		this.coordenates = coordenates;
 	}
 
-	public void move() {
+	public int[] move() {
 		int dir = (int) (Math.random() * 4);
 		switch (dir) {
 			case 0: // derecha
@@ -46,5 +51,6 @@ public class Player {
 				coordenates[0] += 1;
 				break;
 		}
+		return coordenates;
 	}
 }

@@ -2,84 +2,80 @@ package business;
 
 import java.util.ArrayList;
 
-import domain.Board;
+import domain.Continent;
 import domain.Event;
 import domain.Item;
 import domain.Player;
 
 public class GameController {
-	private Board board;
-	private HandleEvent handleEvent;
-	private ArrayList<Event> eventHistory = new ArrayList<>();
+    // Atributos
+    private Continent board;
+    private HandleEvent handleEvent;
+    private ArrayList<Event> eventHistory = new ArrayList<>();
 
-	
-	public GameController(int seed, HandleEvent handleEvent) {
-		board = new Board(seed);
-		this.handleEvent = handleEvent;
-		board.initializeBoard();
-	}
-	
-	public void moveTurn() {
-		movePlayers();
-		eventHistory.addAll(handleEvent.getEvents(board));
+    private int round = 0;
 
-	}
-	public Board getBoard() {
-		return board;
-	}
+    // Constructor
+    public GameController(int seed) {
+        board = new Continent(seed);
+        this.handleEvent = new HandleEvent();
 
-
-	public void killBill(int target) {
-		ArrayList<Player> players = board.getPlayerList();
-		for (Player player : players) {
-			if (target == 0 && player.getState() == 'I') {
-				killPlayer(player);
-			} else if (target == 1 && player.getState() == 'H') {
-				killPlayer(player);
-			}
-		}
-	}
-
-    
-    public void killPlayer(Player player) {
-		getBoard().getPlayerList().remove(player);
     }
 
+    // Métodos públicos
+    public void moveTurn() {
+        round++;
+        if (round % 5 == 0) {
+            board.addPotion();
+        }
+        movePlayers();
+        eventHistory.addAll(handleEvent.getEvents(board));
+        board.updateBoard(null, null);
+    }
 
-	public ArrayList<Player> movePlayers() {
-		ArrayList<Player> players = board.getPlayerList();
-		ArrayList<Player> newCoordinates = new ArrayList<>();
+	public void endGame() {
 
-		for (Player player : players) {
-			// Limpia la posición anterior
-			board.cleanPosition(player.getCoordenates(), player.getState());
-
-			// Intenta mover el jugador
-			int[] originalPos = player.getCoordenates().clone();
-			player.move();
-			int[] validPos = board.validPosition(player.getCoordenates());
-
-			// Si la nueva posición tiene un edificio, no mover
-			if (board.getOnBoard(validPos).contains("E")) {
-				player.setCoordenates(originalPos); // Vuelve a la posición original
-			} else {
-				player.setCoordenates(validPos);
-			}
-
-			// Actualiza el tablero con el nuevo estado
-			board.setOnBoard(player.getCoordenates(), String.valueOf(player.getState()));
-			newCoordinates.add(player);
-		}
-
-		return newCoordinates;
+		System.out.println("El juego ha terminado.");
 	}
 
+    public Continent getBoard() {
+        return board;
+    }
 
-	public void deleteItem(Item item) {
-		board.getItemList().remove(item);
-	}
+    public void killPlayer(Player player) {
+        getBoard().getPlayerList().remove(player);
+    }
 
-	public ArrayList<Event> getEvents() {
-		return eventHistory;
-	}
+    public void deleteItem(Item item) {
+        board.getItemList().remove(item);
+    }
+
+    public ArrayList<Event> getEvents() {
+        return eventHistory;
+    }
+
+    // Métodos de movimiento
+    public void movePlayers() {
+        for (Player player : board.getPlayerList()) {
+            int tryCount = 4;
+            boolean moved = false;
+            while (tryCount > 0 && !moved) {
+                int[] newPos = player.move();
+                int[] validPos = validPosition(newPos, board.getBoard());
+                // Validar que la celda no esté ocupada por un edificio
+                if (!board.getBoard()[validPos[0]][validPos[1]].equals("B")) {
+                    player.setCoordinates(validPos);
+                    moved = true;
+                }
+                tryCount--;
+            }
+            // Si no se pudo mover, el jugador se queda en su posición actual
+        }
+    }
+
+    public int[] validPosition(int[] pos, String[][] board) {
+        int x = (pos[0] + board.length) % board.length;
+        int y = (pos[1] + board[0].length) % board[0].length;
+        return new int[] { x, y };
+    }
 }
