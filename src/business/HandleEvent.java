@@ -243,7 +243,7 @@ public class HandleEvent {
             int[] pos = group.get(0).getCoordinates();
             ArrayList<Item> itemsEnPos = new ArrayList<>();
             for (Item item : items) {
-                if (item.getCoordenates()[0] == pos[0] && item.getCoordenates()[1] == pos[1]) {
+                if (item.getCoordinates()[0] == pos[0] && item.getCoordinates()[1] == pos[1]) {
                     itemsEnPos.add(item);
                 }
             }
@@ -273,7 +273,7 @@ public class HandleEvent {
             int[] pos = group.get(0).getCoordinates();
             ArrayList<Item> itemsEnPos = new ArrayList<>();
             for (Item item : updatedItems) {
-                if (item.getCoordenates()[0] == pos[0] && item.getCoordenates()[1] == pos[1]) {
+                if (item.getCoordinates()[0] == pos[0] && item.getCoordinates()[1] == pos[1]) {
                     itemsEnPos.add(item);
                 }
             }

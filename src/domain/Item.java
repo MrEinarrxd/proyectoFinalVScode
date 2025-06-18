@@ -10,10 +10,8 @@ public class Item {
 		this.coordenates = coordenates;
 		this.type = type;
 	}
-	public int[] getCoordenates() {
-		return coordenates;
-	}
-	public void setCoordenates(int[] coordenates) {
+
+	public void setCoordinates(int[] coordenates) {
 		this.coordenates = coordenates;
 	}
 	public String getType() {
