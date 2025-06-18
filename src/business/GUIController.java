@@ -20,10 +20,12 @@ public class GUIController {
     }
 
     public void killPlayer() {
+        gameController.killPlayer();
         actualizarVista();
     }
 
     public void killInfection() {
+        gameController.killInfection();
         actualizarVista();
     }
 
@@ -34,6 +36,7 @@ public class GUIController {
 
     private void actualizarVista() {
         gui.updateTable(gameController.getEvents());
+        // Siempre usar la referencia actual del tablero
         gui.setGameMap(gameController.getBoard().getBoard());
     }
 
@@ -52,10 +55,12 @@ public class GUIController {
         });
 
         gui.getbkillInfected().setOnAction(event -> {
+            gameController.killInfection();
             actualizarVista();
         });
 
         gui.getbKillPlayer().setOnAction(event -> {
+            gameController.killPlayer();
             actualizarVista();
         });
     }

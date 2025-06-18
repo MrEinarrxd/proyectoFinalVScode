@@ -29,7 +29,7 @@ public class Continent {
                 this.continentName = "Africa";
                 this.continentChannel = "18";
                 builds = 10;
-                infected = 10;
+                infected = 4;
                 humans = 10;
                 potions = 5;
                 initializeBoard(builds, infected, humans);

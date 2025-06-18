@@ -11,7 +11,6 @@ public class Event {
     private ArrayList<Player> players;
     private ArrayList<Item> items;
 
-    // Agrega campos para la tabla
     private String date;
     private String type;
     private String description;

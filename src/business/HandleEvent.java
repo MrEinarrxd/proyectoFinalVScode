@@ -108,14 +108,22 @@ public class HandleEvent {
         ArrayList<Item> handledItems = new ArrayList<>(items);
         switch (caseType) {
             case 6: // Virus vs Antídoto: Curación
-            case 7: // Humano vs Antídoto: Tomar
                 ArrayList<Item> toRemove = new ArrayList<>();
                 for (Item item : handledItems) {
-                    if (item.getType().equals("C")) {
+                    if (item.getType().equals("P")) {
                         toRemove.add(item);
                     }
                 }
                 handledItems.removeAll(toRemove);
+                break;
+            case 7: // Humano vs Antídoto: Tomar
+                ArrayList<Item> toRemove2 = new ArrayList<>();
+                for (Item item : handledItems) {
+                    if (item.getType().equals("P")) {
+                        toRemove2.add(item);
+                    }
+                }
+                handledItems.removeAll(toRemove2);
                 break;
             default:
                 break;
@@ -125,43 +133,35 @@ public class HandleEvent {
 
     // Determina el tipo de evento según los jugadores e ítems presentes
     private int getCase(ArrayList<Player> players, ArrayList<Item> items) {
-        int caseType = -1;
-        boolean hasVirus = false;
-        boolean hasHuman = false;
-        boolean hasAntidote = false;
         int virusCount = 0;
         int humanCount = 0;
-
-        for (Player player : players) {
-            if (player.getState() == 'I') {
-                hasVirus = true;
-                virusCount++;
-            } else if (player.getState() == 'H') {
-                hasHuman = true;
-                humanCount++;
-            }
+        boolean hasAntidote = false;
+    
+        for (Player p : players) {
+            if (p.getState() == 'I') virusCount++;
+            if (p.getState() == 'H') humanCount++;
         }
         for (Item item : items) {
-            if (item.getType().equals("C")) {
-                hasAntidote = true;
-            }
+            if (item.getType().equals("P")) hasAntidote = true;
         }
-        if (hasVirus && hasHuman && virusCount == 1 && humanCount == 1) {
-            caseType = 1; // Virus vs Humano
-        } else if (hasVirus && !hasHuman && virusCount > 1) {
-            caseType = 2; // Virus vs Virus
-        } else if (hasVirus && hasHuman && virusCount > 1 && humanCount == 1) {
-            caseType = 3; // Virus vs Virus vs Humano
-        } else if (hasHuman && hasVirus && humanCount > 1 && virusCount == 1) {
-            caseType = 4; // Humano vs Humano vs Virus
-        } else if (hasHuman && !hasVirus && humanCount > 1) {
-            caseType = 5; // Humano vs Humano
-        } else if (hasVirus && hasAntidote && !hasHuman) {
-            caseType = 6; // Virus vs Antídoto
-        } else if (hasHuman && hasAntidote && !hasVirus) {
-            caseType = 7; // Humano vs Antídoto
-        }
-        return caseType;
+    
+        // 1. Virus vs Humano: Infección
+        if (virusCount == 1 && humanCount == 1 && !hasAntidote) return 1;
+        // 2. Virus vs Virus: Saludo
+        if (virusCount > 1 && humanCount == 0 && !hasAntidote) return 2;
+        // 3. Virus vs Virus vs Humano: Muere Humano
+        if (virusCount > 1 && humanCount == 1 && !hasAntidote) return 3;
+        // 4. Humano vs Humano vs Virus: Muere Virus
+        if (humanCount > 1 && virusCount == 1 && !hasAntidote) return 4;
+        // 5. Humano vs Humano: Saludo
+        if (humanCount > 1 && virusCount == 0 && !hasAntidote) return 5;
+        // 6. Virus vs Antídoto: Curación
+        if (virusCount >= 1 && humanCount == 0 && hasAntidote) return 6;
+        // 7. Humano vs Antídoto: Tomar
+        if (humanCount >= 1 && virusCount == 0 && hasAntidote) return 7;
+    
+        // Si no hay colisión relevante
+        return 0;
     }
 
     // Crea un evento según los jugadores e ítems presentes
@@ -169,11 +169,11 @@ public class HandleEvent {
         String collision = "";
         String eventEfect = "";
         String eventResult = "";
-        ArrayList<Player> handledPlayers;
-        ArrayList<Item> handledItems;
-
+        ArrayList<Player> handledPlayers = new ArrayList<>();
+        ArrayList<Item> handledItems = new ArrayList<>();
+    
         int caseType = getCase(players, items);
-
+    
         switch (caseType) {
             case 1:
                 collision = "Virus vs Humano";
@@ -225,15 +225,10 @@ public class HandleEvent {
                 handledItems = handleItems(items, 7);
                 break;
             default:
-                System.out.println("Evento no contemplado en la tabla: Jugadores=" + players.size() + ", Items=" + items.size());
-                collision = "No contemplado";
-                eventEfect = "Ninguno";
-                eventResult = "Sin efecto";
-                handledPlayers = new ArrayList<>(players);
-                handledItems = new ArrayList<>(items);
-                break;
+                System.out.println("Colision no contemplado en la tabla: Jugadores=" + players.size() + ", Items=" + items.size());
+                return null;
         }
-
+    
         return new Event(id++, coordinates, collision, eventEfect, eventResult, handledPlayers, handledItems);
     }
 
@@ -300,7 +295,7 @@ public class HandleEvent {
                 ArrayList<Item> itemsToRemove = new ArrayList<>();
                 if (caseType == 6 || caseType == 7) {
                     for (Item item : itemsEnPos) {
-                        if (item.getType().equals("C")) {
+                        if (item.getType().equals("P")) {
                             itemsToRemove.add(item);
                         }
                     }
