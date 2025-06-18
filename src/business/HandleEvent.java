@@ -17,34 +17,34 @@ public class HandleEvent {
     }
 
     // Agrupa jugadores por posición
-    public ArrayList<ArrayList<Player>> agruparPorPosicion(ArrayList<Player> players) {
-        ArrayList<ArrayList<Player>> agrupados = new ArrayList<>();
-        ArrayList<int[]> posiciones = new ArrayList<>();
+    public ArrayList<ArrayList<Player>> agroupByPosition(ArrayList<Player> players) {
+        ArrayList<ArrayList<Player>> agrouped = new ArrayList<>();
+        ArrayList<int[]> locations = new ArrayList<>();
 
         for (Player player : players) {
             int[] pos = player.getCoordinates();
             boolean found = false;
 
-            for (int i = 0; i < posiciones.size(); i++) {
-                int[] posExistente = posiciones.get(i);
+            for (int i = 0; i < locations.size(); i++) {
+                int[] posExistente = locations.get(i);
                 if (pos[0] == posExistente[0] && pos[1] == posExistente[1]) {
-                    agrupados.get(i).add(player);
+                    agrouped.get(i).add(player);
                     found = true;
                     break;
                 }
             }
             if (!found) {
-                posiciones.add(pos);
+                locations.add(pos);
                 ArrayList<Player> nuevoGrupo = new ArrayList<>();
                 nuevoGrupo.add(player);
-                agrupados.add(nuevoGrupo);
+                agrouped.add(nuevoGrupo);
             }
         }
-        return agrupados;
+        return agrouped;
     }
 
     // Maneja los jugadores según el tipo de evento
-    public ArrayList<Player> handlePlayers(ArrayList<Player> players, int caseType) {
+    public ArrayList<Player> handlePlayers(ArrayList<Player> players, int caseType, ArrayList<Item> items) {
         ArrayList<Player> handledPlayers = new ArrayList<>(players);
         switch (caseType) {
             case 1: // Virus vs Humano: Infección
@@ -85,6 +85,7 @@ public class HandleEvent {
                 for (Player p : handledPlayers) {
                     if (p.getState() == 'I') {
                         p.setState('H');
+                        handleItems(items, p.getCoordinates());
                     }
                 }
                 System.out.println("Virus se cura con antídoto y pasa a Humano");
@@ -93,9 +94,10 @@ public class HandleEvent {
                 for (Player p : handledPlayers) {
                     if (p.getState() == 'H') {
                         System.out.println("Humano toma antídoto y se cura");
+                        handleItems(items, p.getCoordinates());
+
                     }
                 }
-                System.out.println("Humano toma antídoto");
                 break;
             default:
                 break;
@@ -104,29 +106,29 @@ public class HandleEvent {
     }
 
     // Maneja los ítems según el tipo de evento
-    public ArrayList<Item> handleItems(ArrayList<Item> items, int caseType) {
+    public ArrayList<Item> handleItems(ArrayList<Item> items, int[] coordinates) {
         ArrayList<Item> handledItems = new ArrayList<>(items);
-        switch (caseType) {
+        switch (id) {
             case 6: // Virus vs Antídoto: Curación
-                ArrayList<Item> toRemove = new ArrayList<>();
                 for (Item item : handledItems) {
-                    if (item.getType().equals("P")) {
-                        toRemove.add(item);
+                    if (item.getCoordinates() == coordinates && item.getType().equals("P")) {
+                        System.out.println("Antídoto usado, eliminando del tablero");
+                        handledItems.remove(item);
+                        break; // Solo se elimina un antídoto por evento
                     }
                 }
-                handledItems.removeAll(toRemove);
                 break;
             case 7: // Humano vs Antídoto: Tomar
-                ArrayList<Item> toRemove2 = new ArrayList<>();
                 for (Item item : handledItems) {
-                    if (item.getType().equals("P")) {
-                        toRemove2.add(item);
+                    if (item.getCoordinates() == coordinates && item.getType().equals("P")) {
+                        System.out.println("Antídoto usado, eliminando del tablero");
+                        handledItems.remove(item);
+                        break; // Solo se elimina un antídoto por evento
                     }
                 }
-                handledItems.removeAll(toRemove2);
                 break;
             default:
-                break;
+                System.out.println("No se maneja ítem en este caso");
         }
         return handledItems;
     }
@@ -140,9 +142,12 @@ public class HandleEvent {
         for (Player p : players) {
             if (p.getState() == 'I') virusCount++;
             if (p.getState() == 'H') humanCount++;
-        }
-        for (Item item : items) {
-            if (item.getType().equals("P")) hasAntidote = true;
+
+            for (Item item : items) {
+                if (item.getType().equals("P") && item.getCoordinates()[0] == p.getCoordinates()[0] && item.getCoordinates()[1] == p.getCoordinates()[1]) {
+                    hasAntidote = true;
+                }
+            }
         }
     
         // 1. Virus vs Humano: Infección
@@ -179,56 +184,49 @@ public class HandleEvent {
                 collision = "Virus vs Humano";
                 eventEfect = "Infección";
                 eventResult = "Humano se transforma en Virus";
-                handledPlayers = handlePlayers(players, 1);
-                handledItems = handleItems(items, 1);
+                handledPlayers = handlePlayers(players, 1, items);
                 break;
             case 2:
                 collision = "Virus vs Virus";
                 eventEfect = "Saludo";
                 eventResult = "Continúan";
-                handledPlayers = handlePlayers(players, 2);
-                handledItems = handleItems(items, 2);
+                handledPlayers = handlePlayers(players, 2, items);
                 break;
             case 3:
                 collision = "Virus vs Virus vs Humano";
                 eventEfect = "Pelea";
                 eventResult = "Muere Humano";
-                handledPlayers = handlePlayers(players, 3);
-                handledItems = handleItems(items, 3);
+                handledPlayers = handlePlayers(players, 3, items);
                 break;
             case 4:
                 collision = "Humano vs Humano vs Virus";
                 eventEfect = "Pelea";
                 eventResult = "Muere Virus";
-                handledPlayers = handlePlayers(players, 4);
-                handledItems = handleItems(items, 4);
+                handledPlayers = handlePlayers(players, 4, items);
                 break;
             case 5:
                 collision = "Humano vs Humano";
                 eventEfect = "Saludo";
                 eventResult = "Continúan";
-                handledPlayers = handlePlayers(players, 5);
-                handledItems = handleItems(items, 5);
+                handledPlayers = handlePlayers(players, 5, items);
                 break;
             case 6:
                 collision = "Virus vs Antídoto";
                 eventEfect = "Curación";
                 eventResult = "Virus se cura y pasa a Humano";
-                handledPlayers = handlePlayers(players, 6);
-                handledItems = handleItems(items, 6);
+                handledPlayers = handlePlayers(players, 6, items);
                 break;
             case 7:
                 collision = "Humano vs Antídoto";
                 eventEfect = "Tomar";
                 eventResult = "Continúa el Humano";
-                handledPlayers = handlePlayers(players, 7);
-                handledItems = handleItems(items, 7);
+                handledPlayers = handlePlayers(players, 7, items);
                 break;
             default:
                 System.out.println("Colision no contemplado en la tabla: Jugadores=" + players.size() + ", Items=" + items.size());
-                return null;
+                return null; // No hay evento relevante  y retorna un evento nulo
         }
-    
+
         return new Event(id++, coordinates, collision, eventEfect, eventResult, handledPlayers, handledItems);
     }
 
@@ -236,9 +234,9 @@ public class HandleEvent {
     public ArrayList<Event> getEvents(Continent board) {
         ArrayList<Player> players = board.getPlayerList();
         ArrayList<Item> items = board.getItemList();
-        ArrayList<ArrayList<Player>> groupedPlayers = agruparPorPosicion(players);
+        ArrayList<ArrayList<Player>> groupedPlayers = agroupByPosition(players);
         ArrayList<Event> events = new ArrayList<>();
-
+    
         for (ArrayList<Player> group : groupedPlayers) {
             int[] pos = group.get(0).getCoordinates();
             ArrayList<Item> itemsEnPos = new ArrayList<>();
@@ -247,16 +245,14 @@ public class HandleEvent {
                     itemsEnPos.add(item);
                 }
             }
-
+    
             int caseType = getCase(group, itemsEnPos);
-            if (caseType != -1) {
+            if (caseType > 0) {
                 Event event = createEvent(group, itemsEnPos, pos);
                 events.add(event);
-            } else {
-                System.out.println("Evento no contemplado en la tabla: Jugadores=" + group.size() + ", Items=" + itemsEnPos.size());
             }
         }
-
+    
         return events;
     }
 
@@ -264,7 +260,7 @@ public class HandleEvent {
     public Continent getResultBoard(Continent board) {
         ArrayList<Player> players = board.getPlayerList();
         ArrayList<Item> items = board.getItemList();
-        ArrayList<ArrayList<Player>> groupedPlayers = agruparPorPosicion(players);
+        ArrayList<ArrayList<Player>> groupedPlayers = agroupByPosition(players);
 
         ArrayList<Player> updatedPlayers = new ArrayList<>(players);
         ArrayList<Item> updatedItems = new ArrayList<>(items);
@@ -281,7 +277,7 @@ public class HandleEvent {
             int caseType = getCase(group, itemsEnPos);
 
             if (caseType != -1) {
-                ArrayList<Player> handledPlayers = handlePlayers(new ArrayList<>(group), caseType);
+                ArrayList<Player> handledPlayers = handlePlayers(new ArrayList<>(group), caseType, updatedItems);
 
                 for (Player p : group) {
                     updatedPlayers.remove(p);
