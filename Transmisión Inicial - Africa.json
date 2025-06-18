@@ -1,0 +1,331 @@
+[
+  {
+    "continentName": "Africa",
+    "continentChannel": "18",
+    "continentSize": "10x10",
+    "builds": 10,
+    "infected": 4,
+    "humans": 10,
+    "potions": 5,
+    "board": [
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "H",
+        " "
+      ],
+      [
+        "I",
+        " ",
+        "B",
+        " ",
+        "H",
+        " ",
+        " ",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        "H",
+        " ",
+        "B",
+        "H",
+        " ",
+        " ",
+        "H",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        " ",
+        " ",
+        "H",
+        "H",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "B"
+      ],
+      [
+        " ",
+        "B",
+        "B",
+        "I",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        "B",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "B",
+        " "
+      ],
+      [
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        "B",
+        " ",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        " ",
+        "B",
+        " ",
+        " ",
+        " ",
+        " ",
+        "I",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        " ",
+        "B",
+        " ",
+        " ",
+        " ",
+        " ",
+        "I",
+        " ",
+        " ",
+        " "
+      ],
+      [
+        "H",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " ",
+        " "
+      ]
+    ],
+    "playerList": [
+      {
+        "id": 0,
+        "coordenates": [
+          7,
+          6
+        ],
+        "state": "I"
+      },
+      {
+        "id": 1,
+        "coordenates": [
+          4,
+          3
+        ],
+        "state": "I"
+      },
+      {
+        "id": 2,
+        "coordenates": [
+          1,
+          0
+        ],
+        "state": "I"
+      },
+      {
+        "id": 3,
+        "coordenates": [
+          8,
+          6
+        ],
+        "state": "I"
+      },
+      {
+        "id": 4,
+        "coordenates": [
+          3,
+          3
+        ],
+        "state": "H"
+      },
+      {
+        "id": 5,
+        "coordenates": [
+          2,
+          0
+        ],
+        "state": "H"
+      },
+      {
+        "id": 6,
+        "coordenates": [
+          1,
+          4
+        ],
+        "state": "H"
+      },
+      {
+        "id": 7,
+        "coordenates": [
+          9,
+          0
+        ],
+        "state": "H"
+      },
+      {
+        "id": 8,
+        "coordenates": [
+          8,
+          1
+        ],
+        "state": "H"
+      },
+      {
+        "id": 9,
+        "coordenates": [
+          2,
+          6
+        ],
+        "state": "H"
+      },
+      {
+        "id": 10,
+        "coordenates": [
+          8,
+          1
+        ],
+        "state": "H"
+      },
+      {
+        "id": 11,
+        "coordenates": [
+          0,
+          8
+        ],
+        "state": "H"
+      },
+      {
+        "id": 12,
+        "coordenates": [
+          3,
+          2
+        ],
+        "state": "H"
+      },
+      {
+        "id": 13,
+        "coordenates": [
+          2,
+          3
+        ],
+        "state": "H"
+      }
+    ],
+    "itemList": [
+      {
+        "id": 0,
+        "coordenates": [
+          5,
+          8
+        ],
+        "type": "B"
+      },
+      {
+        "id": 1,
+        "coordenates": [
+          8,
+          1
+        ],
+        "type": "B"
+      },
+      {
+        "id": 2,
+        "coordenates": [
+          1,
+          2
+        ],
+        "type": "B"
+      },
+      {
+        "id": 3,
+        "coordenates": [
+          3,
+          9
+        ],
+        "type": "B"
+      },
+      {
+        "id": 4,
+        "coordenates": [
+          5,
+          0
+        ],
+        "type": "B"
+      },
+      {
+        "id": 5,
+        "coordenates": [
+          4,
+          2
+        ],
+        "type": "B"
+      },
+      {
+        "id": 6,
+        "coordenates": [
+          2,
+          2
+        ],
+        "type": "B"
+      },
+      {
+        "id": 7,
+        "coordenates": [
+          6,
+          5
+        ],
+        "type": "B"
+      },
+      {
+        "id": 8,
+        "coordenates": [
+          7,
+          1
+        ],
+        "type": "B"
+      },
+      {
+        "id": 9,
+        "coordenates": [
+          4,
+          1
+        ],
+        "type": "B"
+      }
+    ],
+    "idPlayer": 14,
+    "idItem": 10
+  }
+]
